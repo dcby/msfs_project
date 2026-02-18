@@ -35,7 +35,8 @@ where
     // project
     ops::create_project(path_buf.join(path_buf.with_added_extension("xml")), config)?;
 
-    ops::create_package_definitions(path_buf, config)?;
+    ops::create_package_definitions(&path_buf, config)?;
+    ops::create_package_sources(&path_buf, config)?;
 
     Ok(())
 }
