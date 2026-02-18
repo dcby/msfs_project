@@ -95,28 +95,3 @@ where
 
     Ok(())
 }
-
-// <?xml version="1.0" encoding="utf-8"?>
-// <AssetPackage Version="0.1.0">
-// 	<ItemSettings>
-// 		<ContentType>SCENERY</ContentType>
-// 		<Title>KLIT FSLTL Static (for Propair Flight)</Title>
-// 		<Manufacturer/>
-// 		<Creator>dcby13</Creator>
-// 	</ItemSettings>
-// 	<Flags>
-// 		<VisibleInStore>false</VisibleInStore>
-// 		<CanBeReferenced>false</CanBeReferenced>
-// 	</Flags>
-// 	<PackageOrderHint>CUSTOM_AIRPORT_PATCH</PackageOrderHint>
-// 	<AssetGroups>
-// 		<AssetGroup Name="static">
-// 			<Type Version="0">BGL</Type>
-// 			<Flags>
-// 				<FSXCompatibility>false</FSXCompatibility>
-// 			</Flags>
-// 			<AssetDir>PackageSources\Scenery\</AssetDir>
-// 			<OutputDir>Scenery\</OutputDir>
-// 		</AssetGroup>
-// 	</AssetGroups>
-// </AssetPackage>
