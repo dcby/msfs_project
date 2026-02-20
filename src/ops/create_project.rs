@@ -1,15 +1,32 @@
-use std::{error::Error, fs::File, io::BufWriter, path::Path};
+use std::{
+    error::Error,
+    fs::File,
+    io::BufWriter,
+    path::{Path, PathBuf},
+};
 
 use quick_xml::{Writer, events::BytesText};
 
 use crate::config::ProjectConfig;
 
-pub fn create_project<P, C>(path: P, config: &C) -> Result<(), Box<dyn Error>>
+pub fn create_project<P, C>(root: P, config: &C) -> Result<(), Box<dyn Error>>
 where
     C: ProjectConfig,
     P: AsRef<Path>,
 {
-    let file = File::create_new(path)?;
+    let mut path_buf: PathBuf = root.as_ref().to_path_buf();
+    path_buf.push(config.slug());
+    path_buf.add_extension("xml");
+
+    let file = File::create_new(path_buf)?;
+
+    write(&file, config)
+}
+
+fn write<C>(file: &File, config: &C) -> Result<(), Box<dyn Error>>
+where
+    C: ProjectConfig,
+{
     let mut writer = Writer::new_with_indent(BufWriter::new(file), b'\t', 1);
     writer.write_event(quick_xml::events::Event::Decl(
         quick_xml::events::BytesDecl::new("1.0", Some("utf-8"), None),

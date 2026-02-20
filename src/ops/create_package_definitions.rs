@@ -1,6 +1,6 @@
 use std::{
     error::Error,
-    fs::{File, create_dir},
+    fs::{self, File},
     io::BufWriter,
     path::{Path, PathBuf},
 };
@@ -17,15 +17,13 @@ where
     let mut path_buf: PathBuf = root.as_ref().to_path_buf();
     path_buf.push("PackageDefinitions");
 
-    create_dir(&path_buf)?;
+    fs::create_dir(&path_buf)?;
 
     path_buf.push(config.author_and_slug());
     path_buf.add_extension("xml");
 
     let file = File::create_new(path_buf)?;
-    write(&file, config)?;
-
-    Ok(())
+    write(&file, config)
 }
 
 fn write<C>(file: &File, config: &C) -> Result<(), Box<dyn Error>>

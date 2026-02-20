@@ -1,16 +1,37 @@
-use std::{error::Error, path::Path};
+use std::{
+    error::Error,
+    fs::{self, File},
+    io::BufWriter,
+    path::{Path, PathBuf},
+};
 
-use crate::config::ProjectConfig;
+use quick_xml::Writer;
 
-pub fn create_package_sources<P, C>(root: P, config: &C) -> Result<(), Box<dyn Error>>
+pub fn create_package_sources<P>(root: P) -> Result<(), Box<dyn Error>>
 where
     P: AsRef<Path>,
-    C: ProjectConfig,
 {
-    Ok(())
+    let mut path_buf: PathBuf = root.as_ref().to_path_buf();
+    path_buf.push("PackageSources\\Scenery");
+
+    fs::create_dir_all(&path_buf)?;
+
+    path_buf.push("static.xml");
+
+    let file = File::create_new(path_buf)?;
+    write(&file)
 }
 
-// PackageSources\Scenery\static.xml
-// <?xml version="1.0"?>
-// <FSData version="9.0">
-// </FSData>
+fn write(file: &File) -> Result<(), Box<dyn Error>> {
+    let mut writer = Writer::new_with_indent(BufWriter::new(file), b'\t', 1);
+    writer.write_event(quick_xml::events::Event::Decl(
+        quick_xml::events::BytesDecl::new("1.0", None, None),
+    ))?;
+
+    writer
+        .create_element("FSData")
+        .with_attribute(("version", "9.0"))
+        .write_empty()?;
+
+    Ok(())
+}

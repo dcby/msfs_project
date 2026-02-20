@@ -32,6 +32,7 @@ impl From<&Args> for Config {
             &value.icao,
             value.force,
             &value.name,
+            value.path.as_ref(),
             &value.vendor,
         )
     }
