@@ -3,10 +3,8 @@ use msfs_static::Config;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
+#[repr(C)]
 pub struct Args {
-    // /// Path to manifest.json
-    // #[arg(short, long, default_value = "manifest.json")]
-    // pub file: String,
     #[arg(short, long)]
     pub author: String,
 
@@ -19,8 +17,14 @@ pub struct Args {
     #[arg(short, long)]
     pub name: String,
 
+    #[arg(long)]
+    pub name_slug: Option<String>,
+
     #[arg(short, long)]
     pub vendor: String,
+
+    #[arg(long)]
+    pub vendor_code: Option<String>,
 
     pub path: Option<String>,
 }
@@ -32,8 +36,10 @@ impl From<&Args> for Config {
             &value.icao,
             value.force,
             &value.name,
+            value.name_slug.as_ref(),
             value.path.as_ref(),
             &value.vendor,
+            value.vendor_code.as_ref(),
         )
     }
 }
